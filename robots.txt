@@ -1,0 +1,8 @@
+User-agent: * Allow: /
+Allow: /tags/
+Disallow: /vendors/
+Disallow: /categories/
+
+
+Sitemap: http://www.whiter.fun/sitemap.xml
+Sitemap: http://www.whiter.fun/baidusitemap.xml
