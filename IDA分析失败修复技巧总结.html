@@ -20,26 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"whiter.fun","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="whiter&#39;sblog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="whiter-blog">
-<meta property="og:url" content="http://whiter.fun/archives/2022/03/index.html">
+    <meta name="description" content="IDA分析失败修复">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDA分析失败修复技巧总结">
+<meta property="og:url" content="http://whiter.fun/IDA%E5%88%86%E6%9E%90%E5%A4%B1%E8%B4%A5%E4%BF%AE%E5%A4%8D%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93.html">
 <meta property="og:site_name" content="whiter-blog">
-<meta property="og:description" content="whiter&#39;sblog">
+<meta property="og:description" content="IDA分析失败修复">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-13T03:53:59.000Z">
+<meta property="article:modified_time" content="2022-03-13T03:56:37.143Z">
 <meta property="article:author" content="whirer">
-<meta property="article:tag" content="whiter-blog">
+<meta property="article:tag" content="工具使用">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://whiter.fun/archives/2022/03/">
+<link rel="canonical" href="http://whiter.fun/IDA%E5%88%86%E6%9E%90%E5%A4%B1%E8%B4%A5%E4%BF%AE%E5%A4%8D%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93.html">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"archives/2022/03/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://whiter.fun/IDA%E5%88%86%E6%9E%90%E5%A4%B1%E8%B4%A5%E4%BF%AE%E5%A4%8D%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93.html","path":"IDA分析失败修复技巧总结.html","title":"IDA分析失败修复技巧总结"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>归档 | whiter-blog</title>
+<title>IDA分析失败修复技巧总结 | whiter-blog</title>
   
 
 
@@ -69,7 +71,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">whiter-blog</h1>
+      <p class="site-title">whiter-blog</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">我们是天生一对,永远别相信其他的事</p>
@@ -105,7 +107,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -118,6 +120,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#call-5"><span class="nav-number">1.</span> <span class="nav-text">call$+5:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jmp-rax"><span class="nav-number">2.</span> <span class="nav-text">{jmp rax}:</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -179,129 +182,110 @@
 </noscript>
 
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 5 篇日志。 继续努力。</span>
-      </div>
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://whiter.fun/IDA%E5%88%86%E6%9E%90%E5%A4%B1%E8%B4%A5%E4%BF%AE%E5%A4%8D%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="whirer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="whiter-blog">
+      <meta itemprop="description" content="whiter'sblog">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="IDA分析失败修复技巧总结 | whiter-blog">
+      <meta itemprop="description" content="IDA分析失败修复">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IDA分析失败修复技巧总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+
+      <time title="创建时间：2022-03-13 11:53:59 / 修改时间：11:56:37" itemprop="dateCreated datePublished" datetime="2022-03-13T11:53:59+08:00">2022-03-13</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+            <div class="post-description">IDA分析失败修复</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!---more--->
+
+<span id="more"></span>
+
+
+
+
+
+
+
+<h1 id="call-5"><a href="#call-5" class="headerlink" title="call$+5:"></a>call$+5:</h1><p>直接使用patch修改为nop即可</p>
+<h1 id="jmp-rax"><a href="#jmp-rax" class="headerlink" title="{jmp rax}:"></a>{jmp rax}:</h1>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-13T11:53:59+08:00"
-              content="2022-03-13">
-          03-13
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/IDA%E5%88%86%E6%9E%90%E5%A4%B1%E8%B4%A5%E4%BF%AE%E5%A4%8D%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93.html" itemprop="url">
-            <span itemprop="name">IDA分析失败修复技巧总结</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag"># 工具使用</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ptmalloc%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90(1).html" rel="prev" title="ptmalloc源码分析(1)">
+                  <i class="fa fa-chevron-left"></i> ptmalloc源码分析(1)
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-11T13:20:09+08:00"
-              content="2022-03-11">
-          03-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/ptmalloc%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90(1).html" itemprop="url">
-            <span itemprop="name">ptmalloc源码分析(1)</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-11T13:17:26+08:00"
-              content="2022-03-11">
-          03-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/%E5%B8%B8%E7%94%A8shellcode%E6%80%BB%E7%BB%93.html" itemprop="url">
-            <span itemprop="name">常用shellcode总结</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-11T13:14:10+08:00"
-              content="2022-03-11">
-          03-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/js%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0.html" itemprop="url">
-            <span itemprop="name">js逆向笔记</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-11T10:43:32+08:00"
-              content="2022-03-11">
-          03-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/PWN%E9%A2%98%E5%8A%A0%E8%BD%BD%E6%8C%87%E5%AE%9Alibc%E7%89%88%E6%9C%AC.html" itemprop="url">
-            <span itemprop="name">PWN加载指定libc版本</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
 
 </div>
   </main>
