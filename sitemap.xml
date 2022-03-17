@@ -81,6 +81,13 @@
   </url>
   
   <url>
+    <loc>http://www.whiter.fun/tags/kernel-pwn/</loc>
+    <lastmod>2022-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.whiter.fun/tags/js/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -89,13 +96,6 @@
   
   <url>
     <loc>http://www.whiter.fun/tags/pwn/</loc>
-    <lastmod>2022-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.whiter.fun/tags/kernel-pwn/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
