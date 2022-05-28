@@ -2,9 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.whiter.fun/kernel%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0(1).html</loc>
+    <loc>http://www.whiter.fun/kernel%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-2.html</loc>
     
-    <lastmod>2022-05-27</lastmod>
+    <lastmod>2022-05-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.whiter.fun/kernel%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-1.html</loc>
+    
+    <lastmod>2022-05-28</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
