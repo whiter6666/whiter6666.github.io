@@ -113,14 +113,14 @@
   </url>
   
   <url>
-    <loc>http://www.whiter.fun/tags/kernel/</loc>
+    <loc>http://www.whiter.fun/tags/pwn/</loc>
     <lastmod>2022-06-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.whiter.fun/tags/pwn/</loc>
+    <loc>http://www.whiter.fun/tags/kernel/</loc>
     <lastmod>2022-06-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

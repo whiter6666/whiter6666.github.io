@@ -11,5 +11,5 @@ http://www.whiter.fun/
 http://www.whiter.fun/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/
 http://www.whiter.fun/tags/kernel-pwn/
 http://www.whiter.fun/tags/js/
-http://www.whiter.fun/tags/kernel/
 http://www.whiter.fun/tags/pwn/
+http://www.whiter.fun/tags/kernel/
