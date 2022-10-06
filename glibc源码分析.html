@@ -22,12 +22,12 @@
 <script class="next-config" data-name="main" type="application/json">{"hostname":"whiter6666.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
     <meta property="og:type" content="article">
-<meta property="og:title" content="ptmalloc源码分析(1)">
+<meta property="og:title" content="glibc源码分析">
 <meta property="og:url" content="http://whiter6666.github.io/glibc%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html">
 <meta property="og:site_name" content="whiter&#39;s blog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-11T05:20:09.000Z">
-<meta property="article:modified_time" content="2022-07-18T07:46:18.793Z">
+<meta property="article:modified_time" content="2022-10-06T04:45:58.239Z">
 <meta property="article:author" content="whirer">
 <meta property="article:tag" content="pwn">
 <meta name="twitter:card" content="summary">
@@ -37,10 +37,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://whiter6666.github.io/glibc%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html","path":"glibc源码分析.html","title":"ptmalloc源码分析(1)"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://whiter6666.github.io/glibc%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html","path":"glibc源码分析.html","title":"glibc源码分析"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>ptmalloc源码分析(1) | whiter's blog</title>
+<title>glibc源码分析 | whiter's blog</title>
   
 
 
@@ -204,12 +204,12 @@
     </span>
     
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="ptmalloc源码分析(1) | whiter's blog">
+      <meta itemprop="name" content="glibc源码分析 | whiter's blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          ptmalloc源码分析(1)
+          glibc源码分析
         </h1>
 
         <div class="post-meta-container">
@@ -227,7 +227,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-18 15:46:18" itemprop="dateModified" datetime="2022-07-18T15:46:18+08:00">2022-07-18</time>
+      <time title="修改时间：2022-10-06 12:45:58" itemprop="dateModified" datetime="2022-10-06T12:45:58+08:00">2022-10-06</time>
     </span>
 
   
