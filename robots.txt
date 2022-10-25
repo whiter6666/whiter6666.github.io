@@ -2,3 +2,4 @@ User-agent: *
 
 Sitemap: http://www.whiter.fun/sitemap.xml
 Sitemap: http://www.whiter.fun/baidusitemap.xml
+

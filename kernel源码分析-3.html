@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="c82yhVgzVDLijmq0y0DVHItZUbvVYZ-cs_ox4V6nYOQ">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"whiter6666.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta property="og:type" content="article">
+<meta property="og:title" content="kernel源码分析-3">
+<meta property="og:url" content="http://whiter6666.github.io/kernel%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-3.html">
+<meta property="og:site_name" content="whiter&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-25T13:57:35.000Z">
+<meta property="article:modified_time" content="2022-10-25T15:17:21.204Z">
+<meta property="article:author" content="whiter">
+<meta property="article:tag" content="whiter&#39;s blog pwn kernel">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://whiter6666.github.io/kernel%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-3.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://whiter6666.github.io/kernel%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-3.html","path":"kernel源码分析-3.html","title":"kernel源码分析-3"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>kernel源码分析-3 | whiter's blog</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">whiter's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我们是天生一对,永远别相信其他的事</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">whiter</p>
+  <div class="site-description" itemprop="description">A menber of Arr3stY0u</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/whiter0709@163.com" title="E-Mail → whiter0709@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.shg-sec.com/" title="https:&#x2F;&#x2F;www.shg-sec.com&#x2F;" rel="noopener" target="_blank">山海关安全团队</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://whiter6666.github.io/kernel%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-3.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="whiter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="whiter's blog">
+      <meta itemprop="description" content="A menber of Arr3stY0u">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="kernel源码分析-3 | whiter's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          kernel源码分析-3
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-25 21:57:35 / 修改时间：23:17:21" itemprop="dateCreated datePublished" datetime="2022-10-25T21:57:35+08:00">2022-10-25</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!---more--->
+
+<span id="more"></span>
+
+<blockquote>
+<p>bootmem分配器(已过时)</p>
+</blockquote>
+<p>    在内核初始化的过程中需要分配内存，内核提供临时的引导内存分配器，在页分配器和块分配器初始化完成之后，把空闲的物理页交给页分配器管理，丢弃引导内存分配器。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">bootmem_data</span> &#123;</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> node_min_pfn;<span class="comment">//起始物理页号</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> node_low_pfn;<span class="comment">//结束物理页号</span></span><br><span class="line">    <span class="type">void</span> *node_bootmem_map;<span class="comment">//指向一个位图，即bitmap，与物理页对应，分配置1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> last_end_off;<span class="comment">//上次分配的内存块的结束位置后面一个字节的偏移</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> hint_idx;<span class="comment">//是上次分配的内存块的结束位置后面物理页位置中索引，下次优先考虑从这个物理页开始分配</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">list</span>;</span><span class="comment">//</span></span><br><span class="line">&#125; <span class="type">bootmem_data_t</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>分配器算法:</strong></p>
+<p>a.只把低端内存添加到bootmem分配器，低端内存是可以直接映射到内核虚拟地址空间的物理内存;</p>
+<p>b.使用一个位图记录哪些物理面被分配，如果物理页被分配，把这个物理页对应的位设置为1;<br>c.采用最先适配算法，扫描位图，找到第一个足够大的空闲内存块;<br>d.为了支持分配小于一页的内存块，记录上次分配的内存块的结束位置后面一个字节的偏移和后面一页的索引，下次分配时，从上次分配的位置后面开始深度。如果上次分配的最后一个物理页剩余空间足够，可以直接在这个物理页上分配内存。</p>
+<p><strong>对外接口:</strong></p>
+<p>alloc_bootmem()</p>
+<p>free_bootmem()</p>
+<blockquote>
+<p>memblock分配器(替代bootmem)</p>
+</blockquote>
+<p>主要维护两种内存:</p>
+<p>    第一种内存是系统可用的物理内存，即系统实际含有的物理内存，其值从DTS中进行配置，通过uboot实际探测之后传入到内核。</p>
+<p>    第二种内存是内核预留给操作系统的内存，这部分内存作为特殊功能使用，不能作为共享内存使用。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">memblock</span> &#123;</span></span><br><span class="line">	<span class="type">bool</span> bottom_up; <span class="comment">//值为真表示从低地址向上分配,反之</span></span><br><span class="line">	<span class="type">phys_addr_t</span> current_limit;<span class="comment">//可分配内存的最大物理地址</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">memblock_type</span> <span class="title">memory</span>;</span><span class="comment">//内存类型(已分配和未分配)</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">memblock_type</span> <span class="title">reserved</span>;</span><span class="comment">//预留类型(已分配)</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> CONFIG_HAVE_MEMBLOCK_PHYS_MAP</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">memblock_type</span> <span class="title">physmem</span>;</span><span class="comment">//物理内存类型</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>物理内存类型和内存类型区别:</strong></p>
+<p>    内存类型是物理内存类型的子集，在引导内核时可以使用内核参数”mem&#x3D;nn[KMG]”，指定可用内存的大小，导致内核不能看见所有的内存;物理内在类型总是包含所有内存范围，内存类型只包含内核参数”mem&#x3D;”指定的可用内在范围。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">memblock_type</span> &#123;</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">long</span> cnt;	<span class="comment">//当前管理集合中记录的内存区域个数</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">long</span> max;	<span class="comment">//当前管理集合中记录的内存区域的最大个数，最大值是INIT PHYSMEM REGIONS</span></span><br><span class="line">	<span class="type">phys_addr_t</span> total_size;	<span class="comment">//所有内存块区域的总长度</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">memblock_region</span> *<span class="title">regions</span>;</span><span class="comment">//执行内存区域结构的指针</span></span><br><span class="line">    <span class="type">char</span> *name; <span class="comment">//内存块类型的名称</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">memblock_region</span> &#123;</span></span><br><span class="line">	<span class="type">phys_addr_t</span> base;<span class="comment">//起始物理地址</span></span><br><span class="line">	<span class="type">phys_addr_t</span> size;<span class="comment">//长度</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">long</span> flags;<span class="comment">//flags标志</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> CONFIG_HAVE_MEMBLOCK_NODE_MAP</span></span><br><span class="line">	<span class="type">int</span> nid;<span class="comment">//节点编号</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>初始化过程涉及函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> __init <span class="title function_">arm64_memblock_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">const</span> s64 linear_region_size = -(s64)PAGE_OFFSET;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Handle linux,usable-memory-range property */</span></span><br><span class="line">    <span class="comment">//解析设备树二进制文件节点</span></span><br><span class="line">	fdt_enforce_memory_region();</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 * Ensure that the linear region takes up exactly half of the kernel</span></span><br><span class="line"><span class="comment">	 * virtual address space. This way, we can distinguish a linear address</span></span><br><span class="line"><span class="comment">	 * from a kernel/module/vmalloc address by testing a single bit.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	BUILD_BUG_ON(linear_region_size != BIT(VA_BITS - <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 * Select a suitable value for the base of physical memory.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="comment">//全局变量记录内存的起始物理地址</span></span><br><span class="line">	memstart_addr = round_down(memblock_start_of_DRAM(),</span><br><span class="line">				   ARM64_MEMSTART_ALIGN);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 * Remove the memory that we will not be able to cover with the</span></span><br><span class="line"><span class="comment">	 * linear mapping. Take care not to clip the kernel which may be</span></span><br><span class="line"><span class="comment">	 * high in memory.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="comment">//把线性映射区域不能覆盖的物理内存范围从memblock中删除</span></span><br><span class="line">	memblock_remove(<span class="type">max_t</span>(u64, memstart_addr + linear_region_size,</span><br><span class="line">			__pa_symbol(_end)), ULLONG_MAX);</span><br><span class="line">	<span class="keyword">if</span> (memstart_addr + linear_region_size &lt; memblock_end_of_DRAM()) &#123;</span><br><span class="line">		<span class="comment">/* ensure that memstart_addr remains sufficiently aligned */</span></span><br><span class="line">		memstart_addr = round_up(memblock_end_of_DRAM() - linear_region_size,</span><br><span class="line">					 ARM64_MEMSTART_ALIGN);</span><br><span class="line">		memblock_remove(<span class="number">0</span>, memstart_addr);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 * Apply the memory limit if it was set. Since the kernel may be loaded</span></span><br><span class="line"><span class="comment">	 * high up in memory, add back the kernel region that must be accessible</span></span><br><span class="line"><span class="comment">	 * via the linear mapping.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="comment">//设备树二进制文件中节点指定的命令行中，可以使用mem指定可用内存大小。</span></span><br><span class="line">    <span class="comment">//如果指定内存的大小，那么把超过可用长度的物理内存范围从memblock中删除。</span></span><br><span class="line">	<span class="keyword">if</span> (memory_limit != (<span class="type">phys_addr_t</span>)ULLONG_MAX) &#123;</span><br><span class="line">		memblock_mem_limit_remove_map(memory_limit);</span><br><span class="line">		memblock_add(__pa_symbol(_text), (u64)(_end - _text));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (IS_ENABLED(CONFIG_BLK_DEV_INITRD) &amp;&amp; initrd_start) &#123;</span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		 * Add back the memory we just removed if it results in the</span></span><br><span class="line"><span class="comment">		 * initrd to become inaccessible via the linear mapping.</span></span><br><span class="line"><span class="comment">		 * Otherwise, this is a no-op</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		u64 base = initrd_start &amp; PAGE_MASK;</span><br><span class="line">		u64 size = PAGE_ALIGN(initrd_end) - base;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		 * We can only add back the initrd memory if we don&#x27;t end up</span></span><br><span class="line"><span class="comment">		 * with more memory than we can address via the linear mapping.</span></span><br><span class="line"><span class="comment">		 * It is up to the bootloader to position the kernel and the</span></span><br><span class="line"><span class="comment">		 * initrd reasonably close to each other (i.e., within 32 GB of</span></span><br><span class="line"><span class="comment">		 * each other) so that all granule/#levels combinations can</span></span><br><span class="line"><span class="comment">		 * always access both.</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="keyword">if</span> (WARN(base &lt; memblock_start_of_DRAM() ||</span><br><span class="line">			 base + size &gt; memblock_start_of_DRAM() +</span><br><span class="line">				       linear_region_size,</span><br><span class="line">			<span class="string">&quot;initrd not fully accessible via the linear mapping -- please check your bootloader ...\n&quot;</span>)) &#123;</span><br><span class="line">			initrd_start = <span class="number">0</span>;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			memblock_remove(base, size); <span class="comment">/* clear MEMBLOCK_ flags */</span></span><br><span class="line">			memblock_add(base, size);</span><br><span class="line">			memblock_reserve(base, size);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (IS_ENABLED(CONFIG_RANDOMIZE_BASE)) &#123;</span><br><span class="line">		<span class="keyword">extern</span> u16 memstart_offset_seed;</span><br><span class="line">		u64 range = linear_region_size -</span><br><span class="line">			    (memblock_end_of_DRAM() - memblock_start_of_DRAM());</span><br><span class="line"></span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		 * If the size of the linear region exceeds, by a sufficient</span></span><br><span class="line"><span class="comment">		 * margin, the size of the region that the available physical</span></span><br><span class="line"><span class="comment">		 * memory spans, randomize the linear region as well.</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="keyword">if</span> (memstart_offset_seed &gt; <span class="number">0</span> &amp;&amp; range &gt;= ARM64_MEMSTART_ALIGN) &#123;</span><br><span class="line">			range = range / ARM64_MEMSTART_ALIGN + <span class="number">1</span>;</span><br><span class="line">			memstart_addr -= ARM64_MEMSTART_ALIGN *</span><br><span class="line">					 ((range * memstart_offset_seed) &gt;&gt; <span class="number">16</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 * Register the kernel text, kernel data, initrd, and initial</span></span><br><span class="line"><span class="comment">	 * pagetables with memblock.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="comment">//把内核销像占用物理内存范围添加到memblock中。</span></span><br><span class="line">	memblock_reserve(__pa_symbol(_text), _end - _text);</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> CONFIG_BLK_DEV_INITRD</span></span><br><span class="line">	<span class="keyword">if</span> (initrd_start) &#123;</span><br><span class="line">		memblock_reserve(initrd_start, initrd_end - initrd_start);</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* the generic initrd code expects virtual addresses */</span></span><br><span class="line">		initrd_start = __phys_to_virt(initrd_start);</span><br><span class="line">		initrd_end = __phys_to_virt(initrd_end);</span><br><span class="line">	&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    <span class="comment">//从设备树二进制文件中的内存保留区域，对应设备源文件字段和节点</span></span><br><span class="line">	early_init_fdt_scan_reserved_mem();</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 4GB maximum for 32-bit only capable devices */</span></span><br><span class="line">	<span class="keyword">if</span> (IS_ENABLED(CONFIG_ZONE_DMA))</span><br><span class="line">		arm64_dma_phys_limit = max_zone_dma_phys();</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		arm64_dma_phys_limit = PHYS_MASK + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	reserve_crashkernel();</span><br><span class="line"></span><br><span class="line">	reserve_elfcorehdr();</span><br><span class="line"></span><br><span class="line">	dma_contiguous_reserve(arm64_dma_phys_limit);</span><br><span class="line"></span><br><span class="line">	memblock_allow_resize();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>memblock暴露接口:</strong></p>
+<p>memblock_add:添加新的物理内存块区域到memblock.memory中</p>
+<p>memblock_remove:删除物理内存块区域;</p>
+<p>memblock_alloc:分配内存;<br>memblock_free:释放内存。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/kernel%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-2.html" rel="prev" title="kernel源码学习-2">
+                  <i class="fa fa-chevron-left"></i> kernel源码学习-2
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">whiter</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
