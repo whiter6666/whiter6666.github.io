@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.whiter.fun/%E5%B8%B8%E7%94%A8shellcode%E6%80%BB%E7%BB%93.html</loc>
+    
+    <lastmod>2023-03-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.whiter.fun/links/index.html</loc>
+    
+    <lastmod>2023-03-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.whiter.fun/kernel%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-3.html</loc>
     
     <lastmod>2022-10-26</lastmod>
@@ -23,15 +41,6 @@
     <loc>http://www.whiter.fun/glibc%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html</loc>
     
     <lastmod>2022-10-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.whiter.fun/%E5%B8%B8%E7%94%A8shellcode%E6%80%BB%E7%BB%93.html</loc>
-    
-    <lastmod>2022-06-18</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -94,7 +103,7 @@
 
   <url>
     <loc>http://www.whiter.fun/</loc>
-    <lastmod>2022-10-31</lastmod>
+    <lastmod>2023-03-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -102,35 +111,35 @@
   
   <url>
     <loc>http://www.whiter.fun/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2022-10-31</lastmod>
+    <lastmod>2023-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://www.whiter.fun/tags/kernel-pwn/</loc>
-    <lastmod>2022-10-31</lastmod>
+    <lastmod>2023-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://www.whiter.fun/tags/js/</loc>
-    <lastmod>2022-10-31</lastmod>
+    <lastmod>2023-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://www.whiter.fun/tags/pwn/</loc>
-    <lastmod>2022-10-31</lastmod>
+    <lastmod>2023-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://www.whiter.fun/tags/kernel/</loc>
-    <lastmod>2022-10-31</lastmod>
+    <lastmod>2023-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
